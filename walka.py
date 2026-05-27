@@ -2,10 +2,10 @@ import random
 
 
 class przeciwnik:
-    def __init__(self, nazwa, max_hp, atk, zwinnosc, nagroda):
+    def __init__(self, nazwa, max_hp, atk, zwinnosc, nagroda_zloto, nagroda_exp, nagroda_chwala):
         self.nazwa = nazwa
         self.max_hp = max_hp
-        self.hp = hp
+        self.hp = max_hp
         self.atk = atk
         self.zwinnosc = zwinnosc
 
@@ -22,13 +22,13 @@ def losuj_przeciwnika(lvl_gracza):
 
     hp = 10 + (lvl_gracza * 5) + random.randint(-5, 5)
     atk = 3 + (lvl_gracza * 2) + random.randint(-1, 1)
-    zwinnnosc = 2 + (lvl_gracza * 2) + random.randint(-1, 1)
+    zwinnosc = 2 + (lvl_gracza * 2) + random.randint(-1, 1)
 
     nagroda_zloto = 20 * lvl_gracza
     nagroda_exp = 40 * lvl_gracza
     nagroda_chwala = 20 + (lvl_gracza * 5)
 
-    return przeciwnik(nazwa, hp, atk, zwinnnosc, nagroda_zloto, nagroda_exp, nagroda_chwala)
+    return przeciwnik(nazwa, hp, atk, zwinnosc, nagroda_zloto, nagroda_exp, nagroda_chwala)
 
 
 def walka(gracz):
@@ -53,7 +53,7 @@ def walka(gracz):
             rzut = random.randint(1, 6)
             obrazenia = gracz.atk + rzut
             wrog.hp -= obrazenia
-            print(f"{gracz.imie} atakuje {wrog.nazwa} i zadaje {obrazenia} obrażeń! (HP przeciwnika: {max(0, wrog.hp)}/{wrog.max_hp})")
+            print(f"\n{gracz.imie} atakuje {wrog.nazwa} i zadaje {obrazenia} obrażeń! (HP przeciwnika: {max(0, wrog.hp)}/{wrog.max_hp})")
         else:
             # atak przeciwnika
             rzut = random.randint(1, 6)
@@ -66,13 +66,26 @@ def walka(gracz):
 
     # wynik walki
     if gracz.hp > 0:
-        print(f"\n{gracz.imie} zwycięża!!! Zdobywasz {wrog.nagroda_zloto} złota, {wrog.nagroda_exp} EXP i {wrog.nagroda_chwala} chwały!")
+        print("\n" + "="*40)
+        print(f"\n{gracz.imie} ZWYCIĘŻA!!! Tłum wiwatuje na Twoją cześć!")
+        print(
+            f" Zdobywasz: {wrog.nagroda_zloto} złota, {wrog.nagroda_exp} EXP i {wrog.nagroda_chwala} chwały!")
+        print("="*40)
+
         gracz.zloto += wrog.nagroda_zloto
         gracz.dodaj_exp(wrog.nagroda_exp)
         gracz.chwala += wrog.nagroda_chwala
         gracz.walki_na_arenie += 1
+
     else:
-        print(
-            f"\n{gracz.imie} zostaje pokonany przez {wrog.nazwa}... Tak kończy się jego historia...")
+        print("\n" + "="*40)
+        print(" PORAŻKA... Padasz na piasek areny, krwawiąc z ran.")
+        print(" Cesarz spogląda na tłum... i po chwili namysłu kieruje kciuk w górę!")
+        print(" Darowano Ci życie, ale zhańbiony tracisz część złota i chwały.")
+        print(" Strażnicy wloką Twoje nieprzytomne ciało do Ludusu...")
+        print("="*40)
+
+        obecna_lokacja = ludus
         gracz.zloto = max(0, gracz.zloto // 2)
         gracz.chwala = max(0, gracz.chwala // 2)
+        gracz.dodaj_exp(wrog.nagroda_exp // 2)

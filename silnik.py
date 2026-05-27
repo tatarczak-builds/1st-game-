@@ -39,11 +39,21 @@ def start_gierki():
 
     # menu główne
     while True:
+        if gracz.walki_na_arenie >= 1 and not gracz.przechodzien:
+            print("\n" + "*"*50)
+            print(" [WYDARZENIE] Z cienia wyłania się zakapturzona postać...")
+            print(" Szemrany przechodzień: ")
+            print(" Widziałem jak walczysz. Masz potencjał.")
+            print(" Jeśli zdobędziesz 100 punktów chwały, przyjdź w nocy do Katakumb...")
+            print(" ...zobaczysz tam coś bardzo ciekawego. - po czym znika w mroku.")
+            print("*"*50 + "\n")
+            # zmiana na true żeby nie wyskakiwało za kazdym razem
+            gracz.przechodzien = True
         print(
             f"\n-----------------------------Jesteś teraz w: {obecna_lokacja.nazwa}-----------------------------")
         print(obecna_lokacja.opis)
         print("\nCo chcesz zrobić?")
-# ------------------------------------------------OPCJE------------------------------------------------
+# ------------------------------------------------WYŚWIETLANE OPCJE------------------------------------------------
         for kierunek in obecna_lokacja.sciezki.keys():
             print(f"- idz {kierunek}")
 
@@ -57,9 +67,8 @@ def start_gierki():
         # =-=-=-=-=-=-=->FORUM<-=-=-=-=-=-=-
         elif obecna_lokacja.nazwa == "Forum Romanum":
             print("- oferta (Zobacz, co ma do zaoferowania kupiec Binjamin)")
-            print(
-                "- kup (Otwiera sklep z bronią i pancerzami. Im wyższy poziom, tym lepsze przedmioty!)")
-            print("- sprzedaj (Odsprzedaj swoje przedmioty)")
+            print("- kup (Wpisz nazwę przedmiotu, np. 'kup Gladius', aby go kupić)")
+            print("- sprzedaj (Odsprzedaj swoje przedmioty, np. 'sprzedaj Gladius'kup )")
 
         # =-=-=-=-=-=-=->KOLOSEUM<-=-=-=-=-=-=-
         elif obecna_lokacja.nazwa == "Koloseum":
@@ -68,12 +77,11 @@ def start_gierki():
 
         # =-=-=-=-=-=-=->KATAKUMBY<-=-=-=-=-=-=-
         elif obecna_lokacja.nazwa == "Mroczne Katakumby":
-            # TU BEDZIE FABULA KATAKUMB
-            pass
+            print("- zejdz glebiej (Zaryzykuj i zbadaj mrok...)")
 
         print("- sprawdz statystyki")
         print("- koniec gry (aby zakończyć)")
-# ------------------------------------------------DZIAŁANIA------------------------------------------------
+# ------------------------------------------------LOGIKA WYBORÓW------------------------------------------------
     # bierzemy wpisaną komendę i zmieniamy ją na małe litery
         komenda = input("\n>>>Twój wybór: ").lower()
         if komenda.startswith("idz "):
@@ -96,7 +104,7 @@ def start_gierki():
             gracz.atk += 1
             gracz.zwinnosc += 1
             print(
-                f"\nUderzasz w manekina treningowego do utraty tchu. Tracisz 1 HP, ale Twoja siła rośnie! (Obecna siła: {gracz.atk})")
+                f"\nUderzasz w manekina treningowego do utraty tchu. Tracisz 2 HP, ale Twoja siła rośnie! (Obecna siła: {gracz.atk})")
 
             if gracz.hp <= 0:
                 print(
@@ -162,6 +170,45 @@ def start_gierki():
         # ========ARENA========
         elif komenda == "walcz" and obecna_lokacja.nazwa == "Koloseum":
             walka(gracz)
+
+        # ========KATAKUMBY========
+        elif komenda == "zejdz glebiej" and obecna_lokacja.nazwa == "Mroczne Katakumby":
+            if not gracz.katakumby_odkryte:
+                if gracz.chwala < 100:
+                    print("\n" + "!"*50)
+                    print(" Schodzisz głęboko w wilgotne tunele Katakumb.")
+                    print(
+                        " Nagle z mroku wyłania się tuzin uzbrojonych, zamaskowanych zbirów.")
+                    print(
+                        " Rzucają się na Ciebie ze wszystkich stron. Bez szans na obronę, giniesz na miejscu.")
+                    print("!"*50)
+                    print("\n--- KONIEC GRY (ŚMIERĆ W KATAKUMBACH) ---")
+                    break  # Przerwanie pętli i koniec gry
+                else:
+                    print("\n" + "*"*50)
+                    print(" Schodzisz głęboko w wilgotne tunele Katakumb.")
+                    print(
+                        " Otacza Cię banda zamaskowanych zbirów. Jeden z nich wysuwa lśniące, ukryte ostrze z rękawa...")
+                    print(
+                        " Nagle ich przywódca unosi dłoń: 'Stać! To ten słynny gladiator z areny. Opuśćcie broń.'")
+                    print(
+                        " Mężczyzna podchodzi bliżej, ściąga kaptur i kładzie Ci rękę na ramieniu.")
+                    print(
+                        " 'Działamy w mroku, by służyć światłu. Witaj w Bractwie Ukrytych, bracie.'")
+                    print(
+                        " 'Nasz wspólny wróg to Cesarz. Przyjmij to złoto na lepszy rynsztunek i poznaj nasze sekrety!'")
+                    print("*"*50)
+
+                    gracz.atk += 20
+                    gracz.zwinnosc += 20
+                    gracz.zloto += 300
+                    print(
+                        f"\n[ ZYSKUJESZ: +20 Atak, +20 Zwinność, +300 Złota! ]")
+
+                    gracz.katakumby_odkryte = True
+                    obecna_lokacja.opis = "Mroczne korytarze są teraz niepokojąco ciche. Zbiry zniknęły bez śladu, zabierając swoje sekrety. Oprócz wilgoci, pajęczyn i echa Twoich kroków, nie ma tu już absolutnie nic ciekawego."
+            else:
+                print("\nJuż zbadałeś te korytarze. Nie ma tu nic więcej do odkrycia.")
 
         # error alert
         else:

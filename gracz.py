@@ -18,6 +18,7 @@ class Gracz:
 
         self.walki_na_arenie = 0
         self.przechodzien = False
+        self.katakumby_odkryte = False
 
         self.ekwipunek = []
 
@@ -37,7 +38,6 @@ class Gracz:
 
     def dodaj_exp(self, ilosc):
         self.exp += ilosc
-        print(f"\nZdobyłeś {ilosc} EXP!")
         # pętla gdyby dostal expa ze awansuje np o 2 poziomy
         while self.exp >= self.exp_do_awansu:
             self.awansuj()

@@ -22,11 +22,11 @@ class Pancerz(Przedmiot):
 
 wszystkie_przedmioty = [
     # lvl1
-    Bron("Pordzewiały gladius", 10, bonus_atak=4, wymagany_lvl=1),
-    Pancerz("Skórzana Zbroja", 15, bonus_hp=10, wymagany_lvl=1),
+    Bron("Gladius", 10, bonus_atak=4, wymagany_lvl=1),
+    Pancerz("Kolczuga", 15, bonus_hp=10, wymagany_lvl=1),
     # lvl2
     Bron("Stalowy miecz", 50, bonus_atak=10, wymagany_lvl=2),
-    Pancerz("Kolczuga", 75, bonus_hp=20, wymagany_lvl=2),
+    Pancerz("Zbroja", 75, bonus_hp=20, wymagany_lvl=2),
     # lvl3
     Bron("Trójząb czempiona", 200, bonus_atak=20, wymagany_lvl=3),
     Pancerz("Zbroja z Koloseum", 300, bonus_hp=50, wymagany_lvl=3),
