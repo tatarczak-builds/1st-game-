@@ -128,9 +128,10 @@ def start_gierki():
         elif komenda == "wykup" and obecna_lokacja.nazwa == "Szkoła Gladiatorów (Ludus)":
             if gracz.zloto >= 1000:
                 print(
-                    "\nZłoto lśni w Twoich dłoniach, gdy przekazujesz je strażnikowi. On kiwa głową i otwiera bramę...")
-                print("Gratulacje! Udało Ci się wykupić wolność! Jesteś teraz wolnym człowiekiem, gotowym na nowe przygody poza areną!")
-                print("\n--- KONIEC GRY ---")
+                    f"\nRzucasz worek z 1000 sztuk złota pod nogi Lanisty. Otrzymujesz drewniany miecz (Rudis). JESTEŚ WOLNY, {gracz.imie}!")
+                print("--- WYGRAŁEŚ GRĘ! ---")
+
+                input("\nNaciśnij Enter, aby zakończyć grę i zamknąć okno...")
                 break  # KONIEC GRY DOBRE ZAKOŃCZENIE
             else:
                 print(
